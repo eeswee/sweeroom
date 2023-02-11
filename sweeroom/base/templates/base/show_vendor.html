@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+	
+
+<div class="card">
+  <div class="card-header">
+    Vendor
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ vendor }}</h5>
+    <p class="card-text">
+    	<ul>
+
+	<li>{{ vendor.address }}</li>
+	<li>{{ vendor.zip_code }}</li>
+	<li>{{ vendor.owner }}</li>
+	<li>{{ vendor.owner_phone }}</li>
+	<li><a href="{{ vendor.web }}">{{ vendor.web }}</a></li>
+	<li>Manager: {{ vendor.manager_name }} </li>
+	<li>Manager's Email: {{ vendor.manager_email }} </li>
+	<li>Assistant : {{ vendor.assistant }}</li>
+
+	</ul>
+	<br>
+
+	{% if vendor.vendor_image %}
+	<img src="{{ vendor.vendor_image.url }}" width=500>
+	{% endif %}
+
+    </p>
+    <br/>
+{% endblock %}

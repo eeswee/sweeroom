@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+	
+<h1>List items</h1>
+
+{% for item in items %}
+ <a href="{% url 'show-item' item.id %}">{{ item}}</a><br/>
+{% endfor %}
+	
+{% endblock %}

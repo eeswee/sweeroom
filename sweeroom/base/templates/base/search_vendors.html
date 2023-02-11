@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+	{% if searched %}
+		<h1>You Searched For {{ searched }}</h1>
+		<br/>
+
+
+
+		{% for vendor in vendors %}
+			
+			<div class="card">
+  <div class="card-header">
+    vendor
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ vendor }}</h5>
+    <p class="card-text">
+    	<ul>
+    {% if vendor.address %}
+		<li>{{ vendor.address }}</li>
+	{% endif %}
+
+	{% if vendor.zip_code %}
+		<li>{{ vendor.zip_code }}</li>
+	{% endif %}
+
+	{% if vendor.manager_phone %}
+		<li>{{ vendor.manager_phone }}</li>
+	{% endif %}
+
+	{% if vendor.manager_email %}
+		<li>{{ vendor.manager_email }}</li>
+	{% endif %}
+
+	{% if vendor.web %}
+		<li><a href="{{ vendor.web }}">{{ vendor.web }}</a></li>
+	{% endif %}
+
+	{% if venue.owner %}
+		<li>Owner ID: {{ vendor.owner }} </li>
+	{% endif %}
+	
+
+	</ul>
+
+
+
+    </p>
+  </div>
+</div>
+	<br/>
+
+
+		{% endfor %}
+	
+	{% else %}
+		<h1>Hey! You Forgot To Search For A Venue...</h1>
+	{% endif %}
+
+	
+
+	
+	
+{% endblock %}

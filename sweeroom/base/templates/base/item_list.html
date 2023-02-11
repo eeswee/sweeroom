@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+	
+	<h1>Items</h1>
+	<br/>
+	
+{% for item in item_list %}
+{% if item.approved %}
+<div class="card">
+  <div class="card-header">
+    {{ item }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"> Name: {{ item.name }}</h5>
+    <p class="card-text">
+    	<ul>
+<li>Name {{ item.name }}</li>
+<li>Code: {{ item.code }}</li>
+<li>Price: {{ item.price}} USD</li>
+<li>MOQ: {{ item.moq }} ea</li>
+<li>LeadTime: {{ item.lead_time }}</li>
+<li>BoxSize: {{ item.size }}</li>
+<li>Material: {{ item.material }}</li>
+<li>Vendor: {{ item.vendor }}</li>
+
+	<li>client <br/>
+	
+{{ item.client }}<br/>
+  
+  
+
+	</li>
+	</ul>
+
+
+    </p>
+  </div>
+  {% if user.is_authenticated %}
+    {% if user == item.assistant %}
+      <div class="card-footer text-muted">
+        
+        <a href="{% url 'update-item' item.id %}" class="btn btn-outline-secondary btn-sm">Update Item</a>
+
+        <a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger btn-sm">Delete Item</a>
+        
+      </div>
+    {% endif %}  
+  {% endif %}
+</div>
+
+
+
+<br/><br/>
+{% endif %}
+
+{% endfor %}
+
+
+	
+{% endblock %}

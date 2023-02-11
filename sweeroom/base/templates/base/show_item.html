@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+	
+<h1>Show item</h1>
+
+<br/>
+	
+{% if item.approved %}
+<div class="card">
+  <div class="card-header">
+    {{ item }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">vendor: {{ item.vendor }}</h5>
+    <p class="card-text">
+    	<ul>
+
+<li>vendor Website: {{ item.vendor.web }}</li>
+<li>assistant: {{ item.assistant }}</li>
+<li>Description: {{ item.description }}</li>
+<li>Approved: {{ item.approved }}</li>
+	<li>client:<br/>
+	{% for user in item.client.all %}
+{{ user }}<br/>
+  
+  {% endfor %}
+
+	</li>
+	</ul>
+
+
+
+    </p>
+  </div>
+  {% if user.is_authenticated %}
+    {% if user == item.manager %}
+      <div class="card-footer text-muted">
+        
+        <a href="{% url 'update-item' item.id %}" class="btn btn-outline-secondary btn-sm">Update item</a>
+
+        <a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger btn-sm">Delete item</a>
+        
+      </div>
+    {% endif %}  
+  {% endif %}
+</div>
+
+
+
+<br/><br/>
+{% endif %}
+
+
+	
+
+{% endblock %}

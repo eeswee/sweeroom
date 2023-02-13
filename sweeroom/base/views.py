@@ -42,7 +42,7 @@ def admin_approval(request):
 	vendor_count = Vendor.objects.all().count()
 	user_count = User.objects.all().count()
 
-	item_list = Item.objects.all().order_by('-item_date')
+	item_list = Item.objects.all()
 	if request.user.is_superuser:
 		if request.method == "POST":
 			# Get list of checked box id's
@@ -78,7 +78,7 @@ def admin_approval(request):
 def my_items(request):
 	if request.user.is_authenticated:
 		me = request.user.id
-		items = Item.objects.filter(attendees=me)
+		items = Item.objects.filter(vendor=me)
 		return render(request, 
 			'base/my_items.html', {
 				"items":items
@@ -110,7 +110,7 @@ def vendor_pdf(request):
 	#]
 	
 	# Designate The Model
-	vendors = vendor.objects.all()
+	vendors = Vendor.objects.all()
 
 	# Create blank list
 	lines = []
@@ -148,7 +148,7 @@ def vendor_csv(request):
 	writer = csv.writer(response)
 
 	# Designate The Model
-	vendors = vendor.objects.all()
+	vendors = Vendor.objects.all()
 
 	# Add column headings to the csv file
 	writer.writerow(['vendor Name', 'Address', 'Zip Code', 'Web', 'Manager Name','Manager Phone''Manager email', 'Assistant'])
@@ -164,13 +164,13 @@ def vendor_text(request):
 	response = HttpResponse(content_type='text/plain')
 	response['Content-Disposition'] = 'attachment; filename=vendors.txt'
 	# Designate The Model
-	vendors = vendor.objects.all()
+	vendors = Vendor.objects.all()
 
 	# Create blank list
 	lines = []
 	# Loop Thu and output
 	for vendor in vendors:
-		lines.append(f'{vendor.name}\n{vendor.address}\n{vendor.zip_code}\n{vendor.phone}\n{vendor.web}\n{vendor.email_address}\n\n\n')
+		lines.append(f'{vendor.name}\n{vendor.address}\n{vendor.manager_name}\n{vendor.manager_email}\n{vendor.web}\n{vendor.assistant}\n\n\n')
 
 	#lines = ["This is line 1\n", 
 	#"This is line 2\n",
@@ -327,7 +327,7 @@ def add_item(request):
 
 
 def update_item(request, item_id):
-	item = item.objects.get(pk=item_id)
+	item = Item.objects.get(pk=item_id)
 	if request.user.is_superuser:
 		form = ItemFormAdmin(request.POST or None, instance=item)	
 	else:
@@ -338,7 +338,7 @@ def update_item(request, item_id):
 		return redirect('list-items')
 
 	return render(request, 'base/update_item.html', 
-		{'item': item,
+		{'item':item,
 		'form':form})
 
 
@@ -354,3 +354,7 @@ def all_items(request):
 def home (request):
     
     return render(request,'base/home.html')
+
+
+
+# .order_by('name')

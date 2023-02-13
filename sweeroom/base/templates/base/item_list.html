@@ -1,61 +1,69 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-	
-	<h1>Items</h1>
-	<br/>
-	
-{% for item in item_list %}
-{% if item.approved %}
-<div class="card">
-  <div class="card-header">
-    {{ item }}
-  </div>
-  <div class="card-body">
-    <h5 class="card-title"> Name: {{ item.name }}</h5>
-    <p class="card-text">
-    	<ul>
-<li>Name {{ item.name }}</li>
-<li>Code: {{ item.code }}</li>
-<li>Price: {{ item.price}} USD</li>
-<li>MOQ: {{ item.moq }} ea</li>
-<li>LeadTime: {{ item.lead_time }}</li>
-<li>BoxSize: {{ item.size }}</li>
-<li>Material: {{ item.material }}</li>
-<li>Vendor: {{ item.vendor }}</li>
 
-	<li>client <br/>
-	
-{{ item.client }}<br/>
+<!-- <div class="grid text-start" style="--bs-gap: .25rem 1rem;"> -->
+
+    <h1>Items</h1>
+    <br/>
+<div class="container">
+
+  <div class="row row-cols-1 row-cols-md-3 g-2 " style="--bs-gap: .25rem 1rem;">
   
-  
+     <!-- <div class="col"> 	   -->
+    
+      {% for item in item_list %}
+      {% if item.approved %}
 
-	</li>
-	</ul>
+        <div class="col"> 	 
+      
+        <div class="card shadow-sm  h-100 " style="width: 20rem ">
 
+          {% if item.design_image %}
+          <img src="{{ item.design_image.url }}" class="card-img-top" width=100% >
+          {% endif %}
 
-    </p>
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text align-text-bottom">
+              <ul>
+                <li>Name {{ item.name }}</li>
+                <li>Code: {{ item.code }}</li>
+                <li>Price: {{ item.price}} USD</li>
+                <li>MOQ: {{ item.moq }} ea</li>
+                <li>LeadTime: {{ item.lead_time }}</li>
+                <li>BoxSize: {{ item.design_size }}</li>
+                <li>Material: {{ item.material }}</li>
+                <li>Vendor: {{ item.vendor }}</li>
+                <li>Assistant: {{ item.assistant }}</li>
+                <li>client: {{ item.client }}</li>
+                <br>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </ul>    
+            </p>
+
+          </div>
+
+          {% if user.is_authenticated %}
+          {% if user == item.assistant %}
+          <div class="card-footer text-muted">
+            
+            <a href="{% url 'update-item' item.id %}" class="btn btn-outline-secondary btn-sm">Update Item</a>
+
+            <a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger btn-sm">Delete Item</a>
+              
+          </div>
+          {% endif %}  
+          {% endif %}
+
+        </div>
+      </div>  
+        <!-- <br/><br/> -->
+      {% endif %}
+      {% endfor %}
+
+    
   </div>
-  {% if user.is_authenticated %}
-    {% if user == item.assistant %}
-      <div class="card-footer text-muted">
-        
-        <a href="{% url 'update-item' item.id %}" class="btn btn-outline-secondary btn-sm">Update Item</a>
-
-        <a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger btn-sm">Delete Item</a>
-        
-      </div>
-    {% endif %}  
-  {% endif %}
 </div>
-
-
-
-<br/><br/>
-{% endif %}
-
-{% endfor %}
-
-
 	
 {% endblock %}

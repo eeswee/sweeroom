@@ -45,13 +45,13 @@ class Item(models.Model):
     lead_time = models.DurationField(max_length=200)
     quality_standard = models.CharField('Standard',max_length=200)
     design_size  = models.CharField('width x depth x height', blank=True,max_length=200)
-    # design_img = models.ImageField(null=True,blank=True, upload_to="images/") 
+    design_image = models.ImageField(null=True,blank=True, upload_to="images/") 
     design_file = models.FileField(blank=True) 
     material = models.TextField()
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE)
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
     assistant = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-
+    approved = models.BooleanField('Aprroved', default=False)
        
     def __str__(self):
         return self.name
@@ -72,3 +72,7 @@ class Order(models.Model):
        
     def __str__(self):
         return self.name  
+    
+
+
+
